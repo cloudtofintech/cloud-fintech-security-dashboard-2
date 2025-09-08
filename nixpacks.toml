@@ -1,8 +1,11 @@
 [phases.setup]
-nixPkgs = ["python3"]
+nixPkgs = ["python3", "python3Packages.pip", "python3Packages.virtualenv"]
 
 [phases.install]
-cmds = ["pip install -r requirements.txt"]
+cmds = [
+  "python3 -m venv venv",
+  ". venv/bin/activate && pip install -r requirements.txt"
+]
 
 [start]
-cmd = "streamlit run app.py --server.port $PORT --server.address 0.0.0.0 --server.headless true --server.enableCORS false"
+cmd = ". venv/bin/activate && streamlit run app.py --server.port $PORT --server.address 0.0.0.0 --server.headless true --server.enableCORS false"
